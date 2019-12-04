@@ -6,11 +6,6 @@
 #include <vector>
 
 int main() {
-  /*util::StopWatch timer;
-  timer.Start();
-  timer.Stop();
-  std::cout << timer.GetMilliseconds() << std::endl;*/
-
   constexpr auto vecSize = 100000;
   std::vector<Vector3f> vectorsA(vecSize);
   std::vector<Vector3f> vectorsB(vecSize);
@@ -34,4 +29,20 @@ int main() {
   }
   stopwatch.Stop();
   std::cout << "SIMD   Dot : " << stopwatch.GetMilliseconds() << std::endl;
+
+  stopwatch.Start();
+  for (auto i = 0u; i < vecSize; ++i) {
+    Cross(vectorsA[i], vectorsB[i]);
+  }
+  stopwatch.Stop();
+  std::cout << "Normal Cross : " << stopwatch.GetMilliseconds() << std::endl;
+
+  stopwatch.Start();
+  for (auto i = 0u; i < vecSize; ++i) {
+    CrossSimd(vectorsA[i], vectorsB[i]);
+  }
+  stopwatch.Stop();
+  std::cout << "SIMD   Cross : " << stopwatch.GetMilliseconds() << std::endl;
+  int n;
+  std::cin >> n;
 }

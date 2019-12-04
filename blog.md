@@ -1,0 +1,67 @@
+# C++ SSE/AVX を触ってみた
+
+## はじめに
+
+Intelが考案したSSE/AVXという命令セットを利用することで、CPUで実行するコードのSIMD化によって高速化が図れます。   
+SSE/AVX命令を利用するようにC++から実際に実装し、どうやってどのくらい高速化できたかなどを備忘録を兼ねて記していきます。   
+勉強中ゆえどうしても誤った記述をしてしまうかもしれません。見つけた方はコメントにて教えていただけると大変助かります！
+
+また、この記事は [Aizu Advent Calendar 2019](https://adventar.org/calendars/3938) の5日目の記事です。   
+興味がある方は覗いてみてください。   
+
+## 概観の説明
+
+#### SISDとSIMD
+
+CPUは実行ファイル(や、アセンブリプログラム)に記述された命令を読み込んで実行します。   
+SSE/AVXを利用しない通常の命令セットでは、**1つのデータ**に対して**1つの演算**を行います。つまり[フリンの分類]([https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%AA%E3%83%B3%E3%81%AE%E5%88%86%E9%A1%9E](https://ja.wikipedia.org/wiki/フリンの分類))で言う**SISD**というものです。   
+すると、CPUリソースが無駄になってしまうことがあります。例えばこんな感じです。
+
+![image-20191205012928353](C:\Users\albus\AppData\Roaming\Typora\typora-user-images\image-20191205012928353.png)  
+この無駄な部分を利用して、本来次のステップで演算される予定だった別のデータに対する演算を**このステップで同時に実行**できるようにする、というのが**SIMD**型演算のアイデアです。   
+
+#### SSE/AVX
+
+CPUでのSIMD型演算を可能にしたx86命令セットの拡張が、Intelが考案した[**SSE/AVX**](https://ja.wikipedia.org/wiki/ストリーミングSIMD拡張命令)です。   
+それぞれ Streaming SIMD Extensions, Advanced Vector Extensionsといい、AVXは後に考案されたSSEの後継バージョンです。   
+これらはそれぞれ128bitsの**xmm**レジスタ、256bitsの**ymm**レジスタと呼ばれるCPUへ組み込まれた追加のレジスタに値をロードして演算します。   
+
+#### C言語のIntrinsics
+
+SSE/AVXはCPU命令セット(アセンブリで書く必要アリ)ですが、これをC言語から呼び出せるようにした**組み込み関数**が用意されています。   
+これらは**Intrinsics**と呼ばれる関数群です。    
+
+#### 並列処理とSIMD演算の違い
+
+並列処理は、**複数の処理**をCPUの**複数のスレッドで分担**させて行います。   
+対して、SIMD演算は**複数の命令**をCPUの**1つのコア内で分担**させて行います。   
+![image-20191205012959120](C:\Users\albus\AppData\Roaming\Typora\typora-user-images\image-20191205012959120.png)
+
+## C++プログラムのSIMD化
+
+C++からIntrinsicsを利用して、高速化を試してみます。   
+ベンチマークとして、ベクトルの内積、外積、行列演算、を
+
+## 注意点・ハマったところなど
+
+
+
+## 分からないところ・疑問
+
+一通り触ってみて、自力で解決できなかったことを挙げます。   
+これらを解説する資料や技術書などがあればコメントで教えていただければ嬉しいです！
+
+- xmm/ymmレジスタはCPUの**1コアにつき**1つ存在している？    
+- もし ↑ の通りならば、SIMDコードを含むコードを実行する並列スレッド数(`std::thread`などのインスタンス数)をCPUのコア数より多くしたらxmm/ymmレジスタの値が破綻しないか？
+- コンパイラの最適化は可能な部分は勝手にSIMD化してくれるのか？
+
+## おわりに
+
+以上です。
+
+### 参考文献
+
+[Intel AVX を使用して SIMD 演算を試してみる](http://kawa0810.hateblo.jp/entries/2012/03/03)   
+[Intel AVX を使用して SIMD 演算を試してみる - その2 -](http://kawa0810.hateblo.jp/entry/20120304/1330852197)   
+[Introduction to Intel® Advanced Vector Extensions](https://software.intel.com/en-us/articles/introduction-to-intel-advanced-vector-extensions)   
+[組み込み関数（intrinsic）によるSIMD入門](https://www.slideshare.net/FukushimaNorishige/simd-10548373)   
