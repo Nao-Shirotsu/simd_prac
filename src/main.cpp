@@ -22,6 +22,7 @@ int main() {
   }
   stopwatch.Stop();
   std::cout << "Normal Dot : " << stopwatch.GetMilliseconds() << std::endl;
+  stopwatch.Reset();
 
   stopwatch.Start();
   for (auto i = 0u; i < vecSize; ++i) {
@@ -29,6 +30,7 @@ int main() {
   }
   stopwatch.Stop();
   std::cout << "SIMD   Dot : " << stopwatch.GetMilliseconds() << std::endl;
+  stopwatch.Reset();
 
   stopwatch.Start();
   for (auto i = 0u; i < vecSize; ++i) {
@@ -36,6 +38,7 @@ int main() {
   }
   stopwatch.Stop();
   std::cout << "Normal Cross : " << stopwatch.GetMilliseconds() << std::endl;
+  stopwatch.Reset();
 
   stopwatch.Start();
   for (auto i = 0u; i < vecSize; ++i) {
@@ -43,6 +46,5 @@ int main() {
   }
   stopwatch.Stop();
   std::cout << "SIMD   Cross : " << stopwatch.GetMilliseconds() << std::endl;
-  int n;
-  std::cin >> n;
+  stopwatch.Reset();
 }
