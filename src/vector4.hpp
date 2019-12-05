@@ -2,10 +2,13 @@
 
 #include <ostream>
 
-class alignas(16) Vector4f {
-public:
-  Vector4f();
-  Vector4f(const float x_, const float y_, const float z_, const float w_);
+struct alignas(16) Vector4f {
+  Vector4f() noexcept;
+  Vector4f(const float x_, const float y_, const float z_, const float w_) noexcept;
+
+  const float& operator[](const size_t idx) const noexcept;
+
+  //operator Vector3f() const noexcept;
 
   union {
     float vec[4];
@@ -15,9 +18,9 @@ public:
   };
 };
 
-bool operator==(const Vector4f& lhs, const Vector4f& rhs);
-std::ostream& operator<<(std::ostream& ost, const Vector4f& vec);
+bool operator==(const Vector4f& lhs, const Vector4f& rhs) noexcept;
+std::ostream& operator<<(std::ostream& ost, const Vector4f& vec) noexcept;
 
-float Dot(const Vector4f& lhs, const Vector4f& rhs);
+float Dot4D(const Vector4f& lhs, const Vector4f& rhs) noexcept;
 
-float DotSimd(const Vector4f& lhs, const Vector4f& rhs);
+float Dot4DSimd(const Vector4f& lhs, const Vector4f& rhs) noexcept;
