@@ -1,6 +1,8 @@
+#pragma once
+
 #include <ostream>
 
-// •’Ê‚Ì3ŸŒ³ƒxƒNƒgƒ‹ƒNƒ‰ƒX
+// ï¿½ï¿½ï¿½Ê‚ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Nï¿½gï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 class Vector3f {
 public:
   Vector3f();

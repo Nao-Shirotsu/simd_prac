@@ -3,6 +3,7 @@
 #include <immintrin.h>
 #include <xmmintrin.h>
 #include <iostream>
+#include <type_traits>
 
 Vector3f::Vector3f()
     : x(0)
@@ -30,7 +31,7 @@ float DotSimd(const Vector3f& lhs, const Vector3f& rhs) {
   __m128 left = _mm_set_ps(0.0f, lhs.x, lhs.y, lhs.z);
   __m128 right = _mm_set_ps(0.0f, rhs.x, rhs.y, rhs.z);
   __m128 resultReg = _mm_mul_ps(left, right);
-  float resultMem[5];
+  alignas(16) float resultMem[4];
   _mm_store_ps(reinterpret_cast<float*>(resultMem), resultReg);
   return resultMem[0] + resultMem[1] + resultMem[2];
 }
@@ -45,7 +46,7 @@ Vector3f CrossSimd(const Vector3f& lhs, const Vector3f& rhs) {
   __m256 left = _mm256_set_ps(0.0f, 0.0f, lhs.y, lhs.z, lhs.x, lhs.z, lhs.x, lhs.y);
   __m256 right = _mm256_set_ps(0.0f, 0.0f, rhs.z, rhs.x, rhs.y, rhs.y, rhs.z, rhs.x);
   __m256 resultReg = _mm256_mul_ps(left, right);
-  float resultMem[8];
+  alignas(32) float resultMem[16];
   _mm256_store_ps(reinterpret_cast<float*>(resultMem), resultReg);
   return Vector3f(resultMem[5] - resultMem[2], resultMem[4] - resultMem[1], resultMem[3] - resultMem[0]);
 }

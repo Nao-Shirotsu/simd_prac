@@ -4,9 +4,10 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
-int main() {
-  constexpr auto vecSize = 100000;
+int main(int argc, char* argv[]) {
+  const auto vecSize = (argc > 1)? std::stoul(argv[1]) : 100000;
   std::vector<Vector3f> vectorsA(vecSize);
   std::vector<Vector3f> vectorsB(vecSize);
   RandomGenerator rand;
@@ -21,7 +22,7 @@ int main() {
     Dot(vectorsA[i], vectorsB[i]);
   }
   stopwatch.Stop();
-  std::cout << "Normal Dot : " << stopwatch.GetMilliseconds() << std::endl;
+  std::cout << "Normal Dot : " << stopwatch.GetMilliseconds() << "msec" << std::endl;
   stopwatch.Reset();
 
   stopwatch.Start();
@@ -29,7 +30,7 @@ int main() {
     DotSimd(vectorsA[i], vectorsB[i]);
   }
   stopwatch.Stop();
-  std::cout << "SIMD   Dot : " << stopwatch.GetMilliseconds() << std::endl;
+  std::cout << "SIMD   Dot : " << stopwatch.GetMilliseconds() << "msec" << std::endl;
   stopwatch.Reset();
 
   stopwatch.Start();
@@ -37,7 +38,7 @@ int main() {
     Cross(vectorsA[i], vectorsB[i]);
   }
   stopwatch.Stop();
-  std::cout << "Normal Cross : " << stopwatch.GetMilliseconds() << std::endl;
+  std::cout << "Normal Cross : " << stopwatch.GetMilliseconds() << "msec" << std::endl;
   stopwatch.Reset();
 
   stopwatch.Start();
@@ -45,6 +46,6 @@ int main() {
     CrossSimd(vectorsA[i], vectorsB[i]);
   }
   stopwatch.Stop();
-  std::cout << "SIMD   Cross : " << stopwatch.GetMilliseconds() << std::endl;
+  std::cout << "SIMD   Cross : " << stopwatch.GetMilliseconds() << "msec" << std::endl;
   stopwatch.Reset();
 }
