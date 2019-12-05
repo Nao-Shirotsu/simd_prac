@@ -2,17 +2,15 @@
 
 #include <immintrin.h>
 #include <xmmintrin.h>
-#include <iostream>
-#include <type_traits>
 
 Vector3f::Vector3f()
     : x(0)
     , y(0)
-    , z(0){}
+    , z(0) {}
 
-Vector3f::Vector3f(const float x_, const float y_, const float z_) 
-  : x(x_)
-  , y(y_)
+Vector3f::Vector3f(const float x_, const float y_, const float z_)
+    : x(x_)
+    , y(y_)
     , z(z_) {}
 
 bool operator==(const Vector3f& lhs, const Vector3f& rhs) {
@@ -38,8 +36,8 @@ float DotSimd(const Vector3f& lhs, const Vector3f& rhs) {
 
 Vector3f Cross(const Vector3f& lhs, const Vector3f& rhs) {
   return Vector3f(lhs.y * rhs.z - lhs.z * rhs.y,
-                 lhs.z * rhs.x - lhs.x * rhs.z,
-                 lhs.x * rhs.y - lhs.y * rhs.x);
+                  lhs.z * rhs.x - lhs.x * rhs.z,
+                  lhs.x * rhs.y - lhs.y * rhs.x);
 }
 
 Vector3f CrossSimd(const Vector3f& lhs, const Vector3f& rhs) {

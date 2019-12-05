@@ -2,7 +2,6 @@
 
 #include <ostream>
 
-// ���ʂ�3�����x�N�g���N���X
 class Vector3f {
 public:
   Vector3f();

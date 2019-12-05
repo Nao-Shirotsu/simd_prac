@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdint>
 #include <chrono>
+#include <cstdint>
 
 class StopWatch {
 public:
@@ -9,9 +9,9 @@ public:
   void Start() noexcept;
   void Stop() noexcept;
   void Reset() noexcept;
-  uint32_t GetMilliseconds() const noexcept;
+  uint32_t GetMicroseconds() const noexcept;
 
 private:
   std::chrono::system_clock::time_point start;
-  std::chrono::milliseconds elapsedTime;
+  std::chrono::microseconds elapsedTime;
 };
