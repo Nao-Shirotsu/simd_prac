@@ -32,5 +32,5 @@ Vector3f MultiplySimd(const Vector3f& vec, const Matrix4x4& matrix) noexcept {
   __m256 resultReg = _mm256_add_ps(row01Reg, row23Reg);
   alignas(32) float resultMem[8];
   _mm256_store_ps(reinterpret_cast<float*>(resultMem), resultReg);
-  return Vector3f(resultMem[0] + resultMem[4], resultMem[1] + resultMem[5], resultMem[2] + resultMem[6]);
+  return { resultMem[0] + resultMem[4], resultMem[1] + resultMem[5], resultMem[2] + resultMem[6] };
 }
