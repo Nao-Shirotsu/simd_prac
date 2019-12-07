@@ -1,4 +1,4 @@
-#include "Vector3.hpp"
+#include "vector3.hpp"
 
 #include <immintrin.h>
 #include <xmmintrin.h>
